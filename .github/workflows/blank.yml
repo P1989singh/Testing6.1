@@ -23,7 +23,7 @@ jobs:
     
   second-job:
     needs: first-job
-      runs-on: ubuntu-latest  
+    runs-on: ubuntu-latest  
       steps:
       - name: Checkout Repository
         uses: actions/checkout@v2  
@@ -31,7 +31,7 @@ jobs:
         run: echo "This is the second step"    
   release-job:
     needs: second-job
-      runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
       steps:
       - name: Checkout code
         uses: actions/checkout@v2
