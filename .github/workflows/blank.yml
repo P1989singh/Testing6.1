@@ -24,64 +24,64 @@ jobs:
   second-job:
     needs: first-job
     runs-on: ubuntu-latest  
-      steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2  
-      - name: Second Step
-        run: echo "This is the second step"    
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2  
+    - name: Second Step
+      run: echo "This is the second step"    
   release-job:
     needs: second-job
     runs-on: ubuntu-latest
-      steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Install semver using npm
-        run: npm install -g semver
-      - name: Set up Git
-        run: |
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Install semver using npm
+      run: npm install -g semver
+    - name: Set up Git
+      run: |
         git config user.email "prmkmrsingh@yahoo.in"
         git config user.name "P1989singh"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Determine version
-        id: determine1
-        run: | 
+    - name: Determine version
+      id: determine1
+      run: | 
         current_version=$(cat version.txt)
         new_version=$(semver bump patch $current_version)
         echo "New version: $new_version"
         echo $new_version > version.txt
         echo "::set-output name=new_version::$new_version"
         
-      - name: Commit version changes
-        id: commit-version
-        run: |
+    - name: Commit version changes
+      id: commit-version
+      run: |
         git add version.txt
         git commit -m "Bump version to ${{steps.determine1.outputs.new_version}}"
         git push
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
-      - name: Create a release
-        id: create_release
-        uses: softprops/action-gh-release@v1
-        with:
-          files: |
+    - name: Create a release
+      id: create_release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
             DB/script.txt
-        token: ${{ secrets.GH_TOKEN }}
+      token: ${{ secrets.GH_TOKEN }}
 
-      - name: Get the release ID
-        run: |
+    - name: Get the release ID
+      run: |
         release_id="${{ steps.create_release.outputs.id }}"
         echo "::set-output name=release_id::$release_id"
         
-      - name: Upload the script.txt
-        uses: actions/upload-artifact@v2
-        with:
-        name: script
-        path: DB/script.txt
+    - name: Upload the script.txt
+      uses: actions/upload-artifact@v2
+      with:
+      name: script
+      path: DB/script.txt
 
-      - name: Attach script.txt to the release
-        run: |
+    - name: Attach script.txt to the release
+      run: |
         curl -sSL -X POST -H "Authorization: token ${{ secrets.GH_TOKEN }}" \
         -H "Content-Type: application/zip" \
         --data-binary @"$GITHUB_WORKSPACE/DB/script.txt" \
