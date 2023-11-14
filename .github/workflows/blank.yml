@@ -46,13 +46,13 @@ jobs:
     - name: Determine version
       id: determine1
       run: | 
-        current_version=$(cat version.txt)
+        current_version=$(cat "version.txt")
         new_version=$(semver bump patch $current_version)
         echo "New version: $new_version"
         echo $new_version > version.txt
         echo "::set-output name=new_version::$new_version"
         
-    - name: Commit version changes
+    - name: Commit version change
       id: commit-version
       run: |
         git add version.txt
