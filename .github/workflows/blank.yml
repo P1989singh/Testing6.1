@@ -67,7 +67,7 @@ jobs:
       with:
         files: |
             DB/script.txt
-      token: ${{ secrets.GH_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
     - name: Get the release ID
       run: |
