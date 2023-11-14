@@ -76,7 +76,7 @@ jobs:
         
     - name: Upload the script.txt
       uses: actions/upload-artifact@v2
-        with:
+      with:
          name: script
          path: DB/script.txt
 
