@@ -42,7 +42,7 @@ jobs:
         git config user.email "prmkmrsingh@yahoo.in"
         git config user.name "P1989singh"
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
     - name: Determine version
       id: determine1
       run: | 
