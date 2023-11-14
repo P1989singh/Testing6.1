@@ -76,9 +76,9 @@ jobs:
         
     - name: Upload the script.txt
       uses: actions/upload-artifact@v2
-      with:
-      name: script
-      path: DB/script.txt
+        with:
+         name: script
+         path: DB/script.txt
 
     - name: Attach script.txt to the release
       run: |
